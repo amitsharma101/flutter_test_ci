@@ -58,6 +58,3 @@ else
     mkdir -p $HOME/.config/dart
     WriteToHome
 fi
-
-pwd
-find . -type d
