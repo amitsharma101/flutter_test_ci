@@ -20,4 +20,8 @@
 
 ## 1.0.5
 
+* Version bumped
+
+## 1.0.6
+
 *  Version bumped

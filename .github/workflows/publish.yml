@@ -9,22 +9,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        uses: actions/checkout@v1
-      -
-        name: "Install Flutter"
-        uses: subosito/flutter-action@v1
-        with:
-          flutter-version: "3.3.8"
-      -
-        name: "Install dependencies"
-        run: "flutter pub get"
-      -
-        name: Analyze
-        run: "flutter analyze"
-      -
-        name: "Run tests"
-        run: "flutter test"
+#      -
+#        uses: actions/checkout@v1
+#      -
+#        name: "Install Flutter"
+#        uses: subosito/flutter-action@v1
+#        with:
+#          flutter-version: "3.3.8"
+#      -
+#        name: "Install dependencies"
+#        run: "flutter pub get"
+#      -
+#        name: Analyze
+#        run: "flutter analyze"
+#      -
+#        name: "Run tests"
+#        run: "flutter test"
       -
         env:
           PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
@@ -35,17 +35,18 @@ jobs:
         name: "Setup Pub Credentials"
         run: "sh ./pub_login.sh\n"
         shell: bash
-      -
-        name: "Check Publish Warnings"
-        run: "flutter pub publish --dry-run"
-      -
-        name: "Publish Package"
-        run: "flutter pub publish -f"
+#      -
+#        name: "Check Publish Warnings"
+#        run: "flutter pub publish --dry-run"
+#      -
+#        name: "Publish Package"
+#        run: "flutter pub publish -f"
       -
         if: always()
         name: "Slack Notification"
-        uses: act10ns/slack@v1
-        with:
-          channel: "#test-github-actions"
-          message: "Deployed {{ env.GITHUB_REF_NAME }} branch Successfully"
-          status: "${{ job.status }}"
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: test-github-actions
+          SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
+          SLACK_MESSAGE: "Deployment status - ${{ job.status }}"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
