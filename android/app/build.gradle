@@ -25,6 +25,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+def getDate() {
+    return new Date().format('yyyy_MM_dd_HH:mm:ss')
+}
+
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -58,6 +62,14 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def appName = "SingularityDemo"
+                    appName = "${appName}_v${versionName}_${getDate()}.apk"
+                    outputFileName = appName
+                }
+            }
         }
     }
 }
