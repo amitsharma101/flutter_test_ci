@@ -60,3 +60,4 @@ else
 fi
 
 pwd
+find . -type d
