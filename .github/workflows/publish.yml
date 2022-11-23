@@ -19,28 +19,43 @@ jobs:
       -
         name: "Install dependencies"
         run: "flutter pub get"
+#      -
+#        name: Analyze
+#        run: "flutter analyze"
+#      -
+#        name: "Run tests"
+#        run: "flutter test"
+#      -
+#        env:
+#          PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
+#          PUB_DEV_PUBLISH_EXPIRATION: "${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}"
+#          PUB_DEV_PUBLISH_REFRESH_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}"
+#          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: "${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}"
+#          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+#        name: "Setup Pub Credentials"
+#        run: "sh ./pub_login.sh\n"
+#        shell: bash
+#      -
+#        name: "Check Publish Warnings"
+#        run: "flutter pub publish --dry-run"
+#      -
+#        name: "Publish Package"
+#        run: "flutter pub publish -f"
+
       -
-        name: Analyze
-        run: "flutter analyze"
+        name: "Build Example Apk"
+        run: "flutter build apk --target=lib/test_ci_project.dart"
+
       -
-        name: "Run tests"
-        run: "flutter test"
-      -
-        env:
-          PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
-          PUB_DEV_PUBLISH_EXPIRATION: "${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}"
-          PUB_DEV_PUBLISH_REFRESH_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}"
-          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: "${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}"
-          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
-        name: "Setup Pub Credentials"
-        run: "sh ./pub_login.sh\n"
-        shell: bash
-      -
-        name: "Check Publish Warnings"
-        run: "flutter pub publish --dry-run"
-      -
-        name: "Publish Package"
-        run: "flutter pub publish -f"
+        name: "Upload apk to s3"
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_BUCKET }}
+          source_dir: 'build/app/outputs/flutter-apk/app-release.apk'
+
+
       -
         if: always()
         name: "Slack Notification"
