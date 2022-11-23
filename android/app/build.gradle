@@ -65,7 +65,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all {
-                    def appName = "SingularityDemo"
+                    def appName = "SingularityFlutterDemo"
                     appName = "${appName}_v${versionName}_${getDate()}.apk"
                     outputFileName = appName
                 }
