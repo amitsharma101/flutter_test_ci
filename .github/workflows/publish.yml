@@ -34,7 +34,7 @@ jobs:
 #          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
 #        name: "Setup Pub Credentials"
 #        run: "sh ./pub_login.sh\n"
-        shell: bash
+#        shell: bash
 #      -
 #        name: "Check Publish Warnings"
 #        run: "flutter pub publish --dry-run"
