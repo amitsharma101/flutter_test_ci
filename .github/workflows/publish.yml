@@ -9,38 +9,38 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-#      -
-#        uses: actions/checkout@v1
-#      -
-#        name: "Install Flutter"
-#        uses: subosito/flutter-action@v1
-#        with:
-#          flutter-version: "3.3.8"
-#      -
-#        name: "Install dependencies"
-#        run: "flutter pub get"
-#      -
-#        name: Analyze
-#        run: "flutter analyze"
-#      -
-#        name: "Run tests"
-#        run: "flutter test"
-#      -
-#        env:
-#          PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
-#          PUB_DEV_PUBLISH_EXPIRATION: "${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}"
-#          PUB_DEV_PUBLISH_REFRESH_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}"
-#          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: "${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}"
-#          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
-#        name: "Setup Pub Credentials"
-#        run: "sh ./pub_login.sh\n"
-#        shell: bash
-#      -
-#        name: "Check Publish Warnings"
-#        run: "flutter pub publish --dry-run"
-#      -
-#        name: "Publish Package"
-#        run: "flutter pub publish -f"
+      -
+        uses: actions/checkout@v1
+      -
+        name: "Install Flutter"
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "3.3.8"
+      -
+        name: "Install dependencies"
+        run: "flutter pub get"
+      -
+        name: Analyze
+        run: "flutter analyze"
+      -
+        name: "Run tests"
+        run: "flutter test"
+      -
+        env:
+          PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
+          PUB_DEV_PUBLISH_EXPIRATION: "${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}"
+          PUB_DEV_PUBLISH_REFRESH_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}"
+          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: "${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}"
+          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+        name: "Setup Pub Credentials"
+        run: "sh ./pub_login.sh\n"
+        shell: bash
+      -
+        name: "Check Publish Warnings"
+        run: "flutter pub publish --dry-run"
+      -
+        name: "Publish Package"
+        run: "flutter pub publish -f"
       -
         if: always()
         name: "Slack Notification"
@@ -48,5 +48,7 @@ jobs:
         env:
           SLACK_CHANNEL: test-github-actions
           SLACK_COLOR: ${{ job.status }} # or a specific color like 'good' or '#ff00ff'
-          SLACK_MESSAGE: "Deployment status - ${{ job.status }}"
+          SLACK_TITLE: "Deployment status - ${{ job.status }}"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: GithuActionNotifier
+          SLACK_ICON: https://www.freepnglogos.com/uploads/robot-png/sad-robot-icons-sad-robot-icon-download-iconhotm-0.png
