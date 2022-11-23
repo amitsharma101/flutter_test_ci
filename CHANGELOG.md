@@ -1,3 +1,7 @@
 ## 1.0.0
 
-*  initial release.
+* initial release.
+
+## 1.0.1
+
+*  Version bumped
