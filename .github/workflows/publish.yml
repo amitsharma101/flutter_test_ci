@@ -8,37 +8,44 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
-      - name: Install Flutter
+      -
+        uses: actions/checkout@v1
+      -
+        name: "Install Flutter"
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.3.8'
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Analyze
-        run: flutter analyze
-      - name: Run tests
-        run: flutter test
-      - name: Setup Pub Credentials
-        shell: bash
+          flutter-version: "3.3.8"
+      -
+        name: "Install dependencies"
+        run: "flutter pub get"
+      -
+        name: Analyze
+        run: "flutter analyze"
+      -
+        name: "Run tests"
+        run: "flutter test"
+      -
         env:
-          PUB_DEV_PUBLISH_ACCESS_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}
-          PUB_DEV_PUBLISH_REFRESH_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}
-          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: ${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}
-          PUB_DEV_PUBLISH_EXPIRATION: ${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}
-	      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          sh ./pub_login.sh
-      - name: Check Publish Warnings
-        run: flutter pub publish --dry-run
-      - name: Publish Package
-        run: flutter pub publish -f
-      - name: Slack Notification
-      	uses: act10ns/slack@v1
-      	with: 
-          status: ${{ job.status }}
-          channel: '#test-github-actions'
-          message: Deployed {{ env.GITHUB_REF_NAME }} branch Successfully
-        if: always() 
+          PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
+          PUB_DEV_PUBLISH_EXPIRATION: "${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}"
+          PUB_DEV_PUBLISH_REFRESH_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}"
+          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: "${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}"
+          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+        name: "Setup Pub Credentials"
+        run: "sh ./pub_login.sh\n"
+        shell: bash
+      -
+        name: "Check Publish Warnings"
+        run: "flutter pub publish --dry-run"
+      -
+        name: "Publish Package"
+        run: "flutter pub publish -f"
+      -
+        if: always()
+        name: "Slack Notification"
+        uses: act10ns/slack@v1
+        with:
+          channel: "#test-github-actions"
+          message: "Deployed {{ env.GITHUB_REF_NAME }} branch Successfully"
+          status: "${{ job.status }}"
