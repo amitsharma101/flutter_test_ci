@@ -11,14 +11,14 @@ jobs:
     steps:
       -
         uses: actions/checkout@v1
-#      -
-#        name: "Install Flutter"
-#        uses: subosito/flutter-action@v1
-#        with:
-#          flutter-version: "3.3.8"
-#      -
-#        name: "Install dependencies"
-#        run: "flutter pub get"
+      -
+        name: "Install Flutter"
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "3.3.8"
+      -
+        name: "Install dependencies"
+        run: "flutter pub get"
 #      -
 #        name: Analyze
 #        run: "flutter analyze"
@@ -42,9 +42,19 @@ jobs:
 #        name: "Publish Package"
 #        run: "flutter pub publish -f"
 
-#      -
-#        name: "Build Example Apk"
-#        run: "flutter build apk --target=lib/test_ci_project.dart"
+      -
+        name: "Build Example Apk"
+        run: "flutter build apk --target=lib/test_ci_project.dart"
+
+      - env:
+          PUB_DEV_PUBLISH_ACCESS_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}"
+          PUB_DEV_PUBLISH_EXPIRATION: "${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}"
+          PUB_DEV_PUBLISH_REFRESH_TOKEN: "${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}"
+          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: "${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}"
+          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+        name: "Setup Pub Credentials"
+        run: "sh ./pub_login.sh\n"
+        shell: bash
 
 #      -
 #        name: "Upload apk to s3"
