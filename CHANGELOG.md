@@ -8,4 +8,8 @@
 
 ## 1.0.2
 
+* Version bumped
+
+## 1.0.3
+
 *  Version bumped
